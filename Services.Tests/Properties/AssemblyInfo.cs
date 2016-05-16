@@ -2,16 +2,14 @@
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 
-[assembly: InternalsVisibleTo("Services.Tests")]
-
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Services")]
+[assembly: AssemblyTitle("Services.Tests")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Services")]
+[assembly: AssemblyProduct("Services.Tests")]
 [assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -22,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("4b432891-72c3-47bb-b542-1e60d3bb9470")]
+[assembly: Guid("1d1acc54-65d4-49cf-8586-cf856793a24d")]
 
 // Version information for an assembly consists of the following four values:
 //
