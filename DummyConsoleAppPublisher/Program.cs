@@ -2,6 +2,7 @@
 using Core.Messages;
 using System;
 using System.Threading.Tasks;
+using System.Reflection;
 
 namespace DummyConsoleAppPublisher
 {
@@ -38,6 +39,9 @@ namespace DummyConsoleAppPublisher
 
             //bootstrap our message bus that will be publishing messages only
             var bus = NinjectMassTransitBootstrapper.Bootstrap(MessagingPreference.PublisherOnly);
+
+            //publish an event that we launched successfully
+            bus.Publish(new AppLaunched { WhichApp = Assembly.GetExecutingAssembly().GetName().Name, When = DateTime.UtcNow });
 
             int counter = 0;
             while (true)

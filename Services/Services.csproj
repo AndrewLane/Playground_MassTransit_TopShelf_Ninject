@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Math\IGenerateRandomColors.cs" />
     <Compile Include="Math\IGenerateRandomNumbers.cs" />
+    <Compile Include="Math\Impl\GenerateRandomColor.cs" />
     <Compile Include="Math\Impl\GenerateRandomNumbers.cs" />
     <Compile Include="NinjectModules\MathModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

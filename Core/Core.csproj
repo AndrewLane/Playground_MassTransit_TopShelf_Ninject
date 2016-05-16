@@ -77,6 +77,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Messages\AppLaunched.cs" />
+    <Compile Include="Messages\IAppLaunched.cs" />
     <Compile Include="Messages\ISomeEvent.cs" />
     <Compile Include="Messages\SomeEvent.cs" />
     <Compile Include="MessagingPreference.cs" />

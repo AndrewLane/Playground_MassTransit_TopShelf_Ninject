@@ -12,6 +12,7 @@ namespace Services.NinjectModules
         public override void Load()
         {
             Bind<IGenerateRandomNumbers>().To<GenerateRandomNumbers>().InSingletonScope();
+            Bind<IGenerateRandomColors>().To<GenerateRandomColor>().InSingletonScope();
         }
     }
 }

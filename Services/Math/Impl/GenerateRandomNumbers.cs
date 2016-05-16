@@ -3,7 +3,7 @@ using System.Security.Cryptography;
 
 namespace Services.Math.Impl
 {
-    public class GenerateRandomNumbers : IGenerateRandomNumbers
+    internal class GenerateRandomNumbers : IGenerateRandomNumbers
     {
         // provider for generating random numbers
         private static RNGCryptoServiceProvider cryptoProvider = new RNGCryptoServiceProvider();
@@ -13,6 +13,16 @@ namespace Services.Math.Impl
             var byteArrayForRandomNumber = new byte[sizeof(uint)];
             cryptoProvider.GetBytes(byteArrayForRandomNumber);
             return BitConverter.ToUInt32(byteArrayForRandomNumber, startIndex: 0) / (uint.MaxValue + 1.0);
+        }
+
+        public int GetRandomInt(int inclusiveMin, int inclusiveMax)
+        {
+            if (inclusiveMin > inclusiveMax) throw new ArgumentOutOfRangeException(nameof(inclusiveMax));
+
+            if (inclusiveMin == inclusiveMax) return inclusiveMin;
+
+            int totalPossibleValues = inclusiveMax - inclusiveMin + 1;
+            return Convert.ToInt32(System.Math.Floor((GetRandomDouble() * totalPossibleValues))) + inclusiveMin;                
         }
     }
 }

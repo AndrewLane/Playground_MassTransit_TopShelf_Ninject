@@ -6,5 +6,7 @@
     public interface IGenerateRandomNumbers
     {
         double GetRandomDouble();
+
+        int GetRandomInt(int inclusiveMin, int inclusiveMax);
     }
 }
