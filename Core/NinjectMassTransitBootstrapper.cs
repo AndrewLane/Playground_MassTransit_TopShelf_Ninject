@@ -35,6 +35,9 @@ namespace Core
                 });
             }
 
+            //load all the modules we can find
+            _kernel.Load("*.dll");
+
             var bus = messagingPreference == MessagingPreference.Consumer ?
                 //our convention for naming the queue will be to use the name of the assembly with the consumers
                 CreateBus(hasReceiveEndPoint: true, queueNameFunc: () => assemblyWithConsumers.GetName().Name) :
