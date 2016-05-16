@@ -2,20 +2,25 @@
 using System;
 using System.Threading.Tasks;
 using Core.Messages;
-using System.Security.Cryptography;
 using System.Configuration;
+using Services.Math;
 
-namespace MassTransitTopShelfNinjectPlayground1.Consumer
+namespace DummyConsumerService.Consumer
 {
     /// <summary>
     /// Dummy handler of ISomeEvent events that has a built-in chance of random failure
     /// </summary>
     public class SomeEventHandler : IConsumer<ISomeEvent>
     {
-        // provider for generating random numbers
-        private static RNGCryptoServiceProvider cryptoProvider = new RNGCryptoServiceProvider();
-
         static double chanceOfFailure;
+
+        private IGenerateRandomNumbers _randomNumberGenerator;
+
+        public SomeEventHandler(IGenerateRandomNumbers randomNumberGenerator)
+        {
+            if (randomNumberGenerator == null) throw new ArgumentNullException(nameof(randomNumberGenerator));
+            _randomNumberGenerator = randomNumberGenerator;
+        }
 
         /// <summary>
         /// Static constructor that pulls our chance of failure from configuration
@@ -35,7 +40,7 @@ namespace MassTransitTopShelfNinjectPlayground1.Consumer
         public async Task Consume(ConsumeContext<ISomeEvent> context)
         {
             //see if we should throw a random failure or let the consumption of the message succeed                       
-            if (GetRandomDouble() < chanceOfFailure)
+            if (_randomNumberGenerator.GetRandomDouble() < chanceOfFailure)
             {
                 var failure = $"Random exception handling [{context.Message.What}]";
                 Console.WriteLine($"{DateTime.UtcNow.ToString("u")} FAILURE {failure}");
@@ -44,16 +49,6 @@ namespace MassTransitTopShelfNinjectPlayground1.Consumer
 
             //consuming the message will just involve writing a message to the console that we got it
             await Console.Out.WriteLineAsync($"{DateTime.UtcNow.ToString("u")} Handling event [{context.Message.What}] which was published at [{context.Message.When.ToString("u")}]");
-        }
-
-        /// <summary>
-        /// Helper to generate random double's
-        /// </summary>
-        private double GetRandomDouble()
-        {
-            var byteArrayForRandomNumber = new byte[sizeof(uint)];
-            cryptoProvider.GetBytes(byteArrayForRandomNumber);
-            return BitConverter.ToUInt32(byteArrayForRandomNumber, startIndex: 0) / (uint.MaxValue + 1.0);
         }
     }
 }
