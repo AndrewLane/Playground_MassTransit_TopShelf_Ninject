@@ -6,12 +6,12 @@ namespace Services.Math.Impl
     internal class GenerateRandomNumbers : IGenerateRandomNumbers
     {
         // provider for generating random numbers
-        private static RNGCryptoServiceProvider cryptoProvider = new RNGCryptoServiceProvider();
+        private static readonly RNGCryptoServiceProvider CryptoProvider = new RNGCryptoServiceProvider();
 
         public double GetRandomDouble()
         {
             var byteArrayForRandomNumber = new byte[sizeof(uint)];
-            cryptoProvider.GetBytes(byteArrayForRandomNumber);
+            CryptoProvider.GetBytes(byteArrayForRandomNumber);
             return BitConverter.ToUInt32(byteArrayForRandomNumber, startIndex: 0) / (uint.MaxValue + 1.0);
         }
 
