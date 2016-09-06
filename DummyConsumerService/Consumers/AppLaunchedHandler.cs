@@ -11,7 +11,7 @@ namespace DummyConsumerService.Consumers
     /// </summary>
     public class AppLaunchedHandler : IConsumer<IAppLaunched>
     {
-        IGenerateRandomColors _colorGenerator;
+        private readonly IGenerateRandomColors _colorGenerator;
 
         public AppLaunchedHandler(IGenerateRandomColors colorGenerator)
         {
@@ -27,7 +27,7 @@ namespace DummyConsumerService.Consumers
             //set the foreground color of the console with a random color
             Console.ForegroundColor = _colorGenerator.GetRandomColor();
 
-            await Console.Out.WriteLineAsync($"{DateTime.UtcNow.ToString("u")} Application [{context.Message.WhichApp}] was successfully launched at [{context.Message.When.ToString("u")}]");
+            await Console.Out.WriteLineAsync($"{DateTime.UtcNow:u} Application [{context.Message.WhichApp}] was successfully launched at [{context.Message.When:u}]");
 
             //reset the color
             Console.ForegroundColor = oldForegroundColor;

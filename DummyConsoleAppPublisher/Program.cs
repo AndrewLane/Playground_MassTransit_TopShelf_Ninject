@@ -11,7 +11,7 @@ namespace DummyConsoleAppPublisher
     /// </summary>
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             //ask the user how long to wait in between publishing each message
             Console.WriteLine("Enter milliseconds to wait between publishes (must be positive):");
@@ -50,7 +50,7 @@ namespace DummyConsoleAppPublisher
                 var eventToPublish = new SomeEvent { What = $"{str} #{counter}", When = DateTime.UtcNow };
                 bus.Publish(eventToPublish);
 
-                Console.WriteLine($"{DateTime.UtcNow.ToString("u")} Just published [{eventToPublish.What}]");
+                Console.WriteLine($"{DateTime.UtcNow:u} Just published [{eventToPublish.What}]");
                 Task.Delay(millisecondsBetweenPublishes).Wait();
 
                 //see if we're done

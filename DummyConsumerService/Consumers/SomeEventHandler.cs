@@ -1,20 +1,20 @@
-﻿using MassTransit;
-using System;
+﻿using System;
+using System.Configuration;
 using System.Threading.Tasks;
 using Core.Messages;
-using System.Configuration;
+using MassTransit;
 using Services.Math;
 
-namespace DummyConsumerService.Consumer
+namespace DummyConsumerService.Consumers
 {
     /// <summary>
     /// Dummy handler of ISomeEvent events that has a built-in chance of random failure
     /// </summary>
     public class SomeEventHandler : IConsumer<ISomeEvent>
     {
-        static double chanceOfFailure;
+        static readonly double ChanceOfFailure;
 
-        private IGenerateRandomNumbers _randomNumberGenerator;
+        private readonly IGenerateRandomNumbers _randomNumberGenerator;
 
         public SomeEventHandler(IGenerateRandomNumbers randomNumberGenerator)
         {
@@ -27,11 +27,10 @@ namespace DummyConsumerService.Consumer
         /// </summary>
         static SomeEventHandler()
         {
-            if (double.TryParse(ConfigurationManager.AppSettings["ChanceOfMessageHandlingFailure"], out chanceOfFailure) == false)
-            {
-                Console.WriteLine("Invalid ChanceOfMessageHandlingFailure configuration, so defaulting to 10% chance of failure.");
-                chanceOfFailure = .1;
-            }
+            if (double.TryParse(ConfigurationManager.AppSettings["ChanceOfMessageHandlingFailure"], out ChanceOfFailure)) return;
+
+            Console.WriteLine("Invalid ChanceOfMessageHandlingFailure configuration, so defaulting to 10% chance of failure.");
+            ChanceOfFailure = .1;
         }
 
         /// <summary>
@@ -40,15 +39,15 @@ namespace DummyConsumerService.Consumer
         public async Task Consume(ConsumeContext<ISomeEvent> context)
         {
             //see if we should throw a random failure or let the consumption of the message succeed                       
-            if (_randomNumberGenerator.GetRandomDouble() < chanceOfFailure)
+            if (_randomNumberGenerator.GetRandomDouble() < ChanceOfFailure)
             {
                 var failure = $"Random exception handling [{context.Message.What}]";
-                Console.WriteLine($"{DateTime.UtcNow.ToString("u")} FAILURE {failure}");
+                Console.WriteLine($"{DateTime.UtcNow:u} FAILURE {failure}");
                 throw new Exception(failure);
             }
 
             //consuming the message will just involve writing a message to the console that we got it
-            await Console.Out.WriteLineAsync($"{DateTime.UtcNow.ToString("u")} Handling event [{context.Message.What}] which was published at [{context.Message.When.ToString("u")}]");
+            await Console.Out.WriteLineAsync($"{DateTime.UtcNow:u} Handling event [{context.Message.What}] which was published at [{context.Message.When:u}]");
         }
     }
 }

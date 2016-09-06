@@ -18,7 +18,7 @@ namespace DummyConsumerService
 
     internal class DummyConsumerService : ServiceControl
     {
-        IBusControl _busControl;
+        private IBusControl _busControl;
 
         public bool Start(HostControl hostControl)
         {

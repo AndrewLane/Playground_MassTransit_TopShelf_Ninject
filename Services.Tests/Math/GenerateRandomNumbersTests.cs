@@ -40,14 +40,14 @@ namespace Services.Tests.Math
         [TestCase(5000)]
         public void TestGetRandomIntGetsAllNumbersInRangeEventually(int max)
         {
-            TimeSpan maxTimeToRun = TimeSpan.FromSeconds(1); // don't let the test churn for more than a second
+            var maxTimeToRun = TimeSpan.FromSeconds(1); // don't let the test churn for more than a second
             var stopWatch = new Stopwatch();            
 
             var objectUnderTest = new GenerateRandomNumbers();
 
             bool[] found = new bool[max+1];
 
-            bool done = false;
+            bool done;
 
             stopWatch.Start();
             do
@@ -59,11 +59,9 @@ namespace Services.Tests.Math
                 done = true;
                 for (int i = 0; i <= max; i++)
                 {
-                    if (found[i] == false)
-                    {
-                        done = false;
-                        break;
-                    }
+                    if (found[i]) continue;
+                    done = false;
+                    break;
                 }
 
                 if (stopWatch.Elapsed > maxTimeToRun)
