@@ -33,6 +33,7 @@ namespace Services.Tests.Math
 
         [TestCase(-1)]
         [TestCase(8)]
+        [TestCase(100)]
         [TestCase(1000)]
         public void TestGetRandomColorWithBadRandomNumbersGenerated(int badRandomNumber)
         {
