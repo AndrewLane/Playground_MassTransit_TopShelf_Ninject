@@ -1,6 +1,7 @@
 ﻿using Core;
 using Core.Messages;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using System.Reflection;
 
@@ -13,6 +14,8 @@ namespace DummyConsoleAppPublisher
     {
         static void Main()
         {
+            PrintVersion();
+
             //ask the user how long to wait in between publishing each message
             Console.WriteLine("Enter milliseconds to wait between publishes (must be positive):");
             var delayInput = Console.ReadLine();
@@ -60,6 +63,15 @@ namespace DummyConsoleAppPublisher
             Console.WriteLine("Attempting to stop bus...");
             bus.Stop();
             Console.WriteLine("Exiting");
+        }
+
+        /// <summary>
+        /// Helper to print out the version of this app
+        /// </summary>
+        private static void PrintVersion()
+        {
+            FileVersionInfo fvi = FileVersionInfo.GetVersionInfo(Assembly.GetExecutingAssembly().Location);
+            Console.WriteLine($"Version is {fvi.FileVersion}");
         }
     }
 }
