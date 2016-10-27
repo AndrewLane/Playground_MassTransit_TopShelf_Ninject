@@ -15,4 +15,4 @@ namespace Services.NinjectModules
             Bind<IGenerateRandomColors>().To<GenerateRandomColor>().InSingletonScope();
         }
     }
-
+}
