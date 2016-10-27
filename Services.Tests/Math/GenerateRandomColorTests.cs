@@ -31,7 +31,7 @@ namespace Services.Tests.Math
             objectUnderTest.GetRandomColor().Should().Be(expectedColor);
         }
 
-        [TestCase(2)]
+        [TestCase(-1)]
         [TestCase(8)]
         [TestCase(1000)]
         public void TestGetRandomColorWithBadRandomNumbersGenerated(int badRandomNumber)
